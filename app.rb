@@ -4,11 +4,9 @@ require "sinatra"
 require "haml"
 require "sass"
 require "sequel"
-require "logger"
 
 configure :development, :production do
-  DB = Sequel.connect(:adapter => "sqlite", :database => "nowaste.db")
-  DB.loggers << Logger.new($stdout)
+  DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://nowaste.db')
 end
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'models')
