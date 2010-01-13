@@ -1,0 +1,14 @@
+%table
+  %thead
+    %tr
+      %th 日付
+      %th 項目
+      %th 入金
+      %th 出金
+  %tbody
+    - @balances.each do |balance|
+      %tr
+        %td= balance.created_at.strftime("%Y-%m-%d")
+        %td= balance.category_name
+        %td.tooltip{:title => balance.income_comment}= balance.income_price
+        %td.tooltip{:title => balance.outgo_comment }= balance.outgo_price
