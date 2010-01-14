@@ -24,40 +24,4 @@
         .main
           = yield
 
-          .cols
-            .col.first
-              %form#add-outgo{:action => "/outgo/add", :method => "post"}
-                %fieldset
-                  %legend 出金
-                  %div
-                    %label{:for => "outgo_category_id"} 項目
-                    %select.required{:id => "outogo_category_id", :name => "outgo[outgo_category_id]"}
-                      %option ---
-                      - @outgo_categories.each do |category|
-                        %option{:value => category.id}= category.name
-                  %div
-                    %label{:for => "outgo_price"} 金額
-                    %input.required{:type => "text", :id => "outgo_price", :name => "outgo[price]"}
-                  %div
-                    %label{:for => "outgo_comment"} 詳細
-                    %input{:type => "text", :id => "outgo_comment", :name => "outgo[comment]"}
-                  .submit
-                    %button{:type => "submit"} 登録
-            .col
-              %form#add-income{:action => "/income/add", :method => "post"}
-                %fieldset
-                  %legend 入金
-                  %div
-                    %label{:for => "income_category_id"} 項目
-                    %select.required{:id => "income_category_id", :name => "income[income_category_id]"}
-                      %option ---
-                      - @income_categories.each do |category|
-                        %option{:value => category.id}= category.name
-                  %div
-                    %label{:for => "income_price"} 金額
-                    %input.required{:type => "text", :id => "income_price", :name => "income[price]"}
-                  %div
-                    %label{:for => "income_comment"} 詳細
-                    %input{:type => "text", :id => "income_comment", :name => "income[comment]"}
-                  .submit
-                    %button{:type => "submit"} 登録
+          = partial :forms, :locals => {:outgo_categories => @outgo_categories, :income_categories => @income_categories}

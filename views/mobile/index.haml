@@ -1,0 +1,12 @@
+%table
+  %tr
+    %th 日付
+    %th 項目
+    %th 入金
+    %th 出金
+  - @balances.each do |balance|
+    %tr
+      %td= balance.created_at.strftime("%y-%m-%d")
+      %td= balance.category_name
+      %td= balance.income_price
+      %td= balance.outgo_price

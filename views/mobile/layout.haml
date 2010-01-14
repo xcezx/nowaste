@@ -1,0 +1,16 @@
+%html
+  %head
+    %meta{"http-equiv" => "content-type", :content => "text/html; charset=utf-8"}
+    %title= @title
+  %body
+    %h1= @title
+
+    .main
+      = yield
+
+      = partial :forms, :locals => {:outgo_categories => @outgo_categories, :income_categories => @income_categories}
+
+    #nav
+      %a{:href => "#add-outgo", :accesskey => 1} 1 出金登録
+      %br
+      %a{:href => "#add-income", :accesskey => 2} 2 入金登録

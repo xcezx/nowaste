@@ -5,6 +5,13 @@ require "haml"
 require "sass"
 require "sequel"
 require "logger"
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
+require "jpmobile"
+# require "jpmobile/request_with_mobile"
+
+class Rack::Request
+  include Jpmobile::RequestWithMobile
+end
 
 configure :development, :production do
   DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://nowaste.db')
@@ -37,11 +44,18 @@ helpers do
     @auth ||= Rack::Auth::Basic::Request.new(request.env)
     @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [ENV['USERNAME'], ENV['PASSWORD']]
   end
+
+  def partial(template, options = {})
+    options = options.merge({:layout => false})
+    template = "_#{template.to_s}".to_sym
+    haml(template, options)
+  end
 end
 
 before do
   protected!
   @title = "NoWaste"
+
 end
 
 # Home
@@ -57,7 +71,12 @@ get "/" do
   @balances = Balance.filter(:created_at => from..to).order(:created_at.desc)
   @outgo_categories = OutgoCategory.all
   @income_categories = IncomeCategory.all
-  haml :index
+
+  if request.mobile?
+    haml "mobile/index".to_sym, :layout => "mobile/layout".to_sym
+  else
+    haml :index
+  end
 end
 
 # --- Outgo ---
