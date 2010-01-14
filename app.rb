@@ -4,9 +4,14 @@ require "sinatra"
 require "haml"
 require "sass"
 require "sequel"
+require "logger"
 
 configure :development, :production do
   DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://nowaste.db')
+end
+
+configure :development do
+  DB.loggers << Logger.new($stdout)
 end
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'models')
@@ -21,15 +26,25 @@ helpers do
   alias_method :h, :escape_html
 end
 
+before do
+  @title = "NoWaste"
+end
 
+# Home
 get "/" do
-  @balances = Balance.all
+  now = Time.now
+  end_of_month = Date.new(now.year, now.month, -1)
+
+  from = Time.local(now.year, now.month, 1, 0, 0, 0)
+  to   = Time.local(end_of_month.year, end_of_month.month, end_of_month.day, 23, 59, 59)
+
+  @balances = Balance.filter(:created_at => from..to).order(:created_at.desc)
   @outgo_categories = OutgoCategory.all
   @income_categories = IncomeCategory.all
   haml :index
 end
 
-
+# --- Outgo ---
 post "/outgo/add" do
   DB.transaction do
     outgo = Outgo.create(params[:outgo])
@@ -39,6 +54,16 @@ post "/outgo/add" do
   redirect "/"
 end
 
+# get "/outgo/edit/:id" do
+# end
+
+# put "/outgo/update" do
+# end
+
+# delete "/outgo/delete/:id" do
+# end
+
+# --- Income ---
 post "/income/add" do
   DB.transaction do
     income = Income.create(params[:income])
@@ -47,3 +72,12 @@ post "/income/add" do
 
   redirect "/"
 end
+
+# get "/income/edit/:id" do
+# end
+
+# put "/income/update" do
+# end
+
+# delete "/income/delete/:id" do
+# end

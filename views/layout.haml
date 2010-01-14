@@ -13,10 +13,8 @@
   %body
     #container
       #header
-        %h1 AccountBook
-        %ul#nav
-          %li
-            %a{:href => "/"} Home
+        %h1
+          %a{:href => "/"}= @title
       .content
         .main
           = yield
@@ -25,16 +23,16 @@
             .col.first
               %form{:action => "/outgo/add", :method => "post"}
                 %fieldset
-                  %legend Outgo
+                  %legend 出金
                   %div
                     %label{:for => "outgo_category_id"} 項目
-                    %select{:id => "outogo_category_id", :name => "outgo[outgo_category_id]"}
+                    %select.required{:id => "outogo_category_id", :name => "outgo[outgo_category_id]"}
                       %option ---
                       - @outgo_categories.each do |category|
                         %option{:value => category.id}= category.name
                   %div
                     %label{:for => "outgo_price"} 金額
-                    %input{:type => "text", :id => "outgo_price", :name => "outgo[price]"}
+                    %input.required{:type => "text", :id => "outgo_price", :name => "outgo[price]"}
                   %div
                     %label{:for => "outgo_comment"} 詳細
                     %input{:type => "text", :id => "outgo_comment", :name => "outgo[comment]"}
@@ -43,16 +41,16 @@
             .col
               %form{:action => "/income/add", :method => "post"}
                 %fieldset
-                  %legend Income
+                  %legend 入金
                   %div
                     %label{:for => "income_category_id"} 項目
-                    %select{:id => "income_category_id", :name => "income[income_category_id]"}
+                    %select.required{:id => "income_category_id", :name => "income[income_category_id]"}
                       %option ---
                       - @income_categories.each do |category|
                         %option{:value => category.id}= category.name
                   %div
                     %label{:for => "income_price"} 金額
-                    %input{:type => "text", :id => "income_price", :name => "income[price]"}
+                    %input.required{:type => "text", :id => "income_price", :name => "income[price]"}
                   %div
                     %label{:for => "income_comment"} 詳細
                     %input{:type => "text", :id => "income_comment", :name => "income[comment]"}

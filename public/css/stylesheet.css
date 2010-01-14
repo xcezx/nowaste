@@ -1,2 +1,11 @@
+body { font-family: "Lucida Sans Unicode", sans-serif; }
+
 #container { width: 80%; }
 .main { width: 100%; }
+button { background: url(../images/bg_button.png) no-repeat 0 0; }
+button { color: #ffffff; }
+button { width: 144px; }
+button { height: 30px; }
+button { cursor: pointer; }
+button { text-align: center; }
+button { font-weight: bold; }

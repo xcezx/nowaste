@@ -21,15 +21,17 @@ class Balance < Sequel::Model(:balance)
     end
   end
 
-  def income_price
-    if !self.income.nil? then
-      self.income.price
+  def comment
+    if !self.outgo.nil? then
+      self.outgo.comment
+    elsif !self.income.nil? then
+      self.income.comment
     end
   end
 
-  def income_comment
+  def income_price
     if !self.income.nil? then
-      self.income.comment
+      self.income.price
     end
   end
 
@@ -39,9 +41,4 @@ class Balance < Sequel::Model(:balance)
     end
   end
 
-  def outgo_comment
-    if !self.outgo.nil? then
-      self.outgo.comment
-    end
-  end
 end
