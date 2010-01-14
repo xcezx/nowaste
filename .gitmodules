@@ -1,3 +1,0 @@
-[submodule "lib/jpmobile"]
-	path = lib/jpmobile
-	url = git://github.com/darashi/jpmobile.git
