@@ -5,7 +5,7 @@ require "haml"
 require "sass"
 require "sequel"
 require "logger"
-$LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib', 'jpmobile', 'lib')
 require "jpmobile"
 # require "jpmobile/request_with_mobile"
 
