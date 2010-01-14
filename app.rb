@@ -12,6 +12,8 @@ end
 
 configure :development do
   DB.loggers << Logger.new($stdout)
+  ENV['USERNAME'] = 'username'
+  ENV['PASSWORD'] = 'p4ssw0rd'
 end
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'models')
@@ -24,9 +26,21 @@ require "balance"
 helpers do
   include Rack::Utils
   alias_method :h, :escape_html
+
+  def protected!
+    response['WWW-Authenticate'] = %(Basic realm="Private") and \
+    throw(:halt, [401, "Not authorized\n"]) and \
+    return unless authorized?
+  end
+
+  def authorized?
+    @auth ||= Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [ENV['USERNAME'], ENV['PASSWORD']]
+  end
 end
 
 before do
+  protected!
   @title = "NoWaste"
 end
 
@@ -83,3 +97,13 @@ end
 
 # delete "/income/delete/:id" do
 # end
+
+
+
+
+
+
+
+
+
+
