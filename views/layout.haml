@@ -15,13 +15,18 @@
       #header
         %h1
           %a{:href => "/"}= @title
+        %ul#nav
+          %li
+            %a{:href => "#add-outgo"} 出金登録
+          %li
+            %a{:href => "#add-income"} 入金登録
       .content
         .main
           = yield
 
           .cols
             .col.first
-              %form{:action => "/outgo/add", :method => "post"}
+              %form#add-outgo{:action => "/outgo/add", :method => "post"}
                 %fieldset
                   %legend 出金
                   %div
@@ -39,7 +44,7 @@
                   .submit
                     %button{:type => "submit"} 登録
             .col
-              %form{:action => "/income/add", :method => "post"}
+              %form#add-income{:action => "/income/add", :method => "post"}
                 %fieldset
                   %legend 入金
                   %div

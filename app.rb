@@ -35,6 +35,8 @@ get "/" do
   now = Time.now
   end_of_month = Date.new(now.year, now.month, -1)
 
+  @title = @title + " #{now.strftime('%Y-%m')}"
+
   from = Time.local(now.year, now.month, 1, 0, 0, 0)
   to   = Time.local(end_of_month.year, end_of_month.month, end_of_month.day, 23, 59, 59)
 
